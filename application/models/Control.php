@@ -21,8 +21,9 @@ class Control extends CI_Model
     {
         if (!empty($control)) {
             foreach ($control_id as $id) {
-                return $this->db->where('id', $id)->update(strtolower(get_class($this)), $control)? 1 : 0;                
+            	$this->db->where('id', $id)->update(strtolower(get_class($this)), $control)? 1 : 0;                
             }
+            return 1;
         } else {
             return 0;
         }
