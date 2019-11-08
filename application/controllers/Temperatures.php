@@ -13,6 +13,7 @@ class Temperatures extends CI_Controller
         parent::__construct();
 
         $this->load->model('Temperature');
+        $this->load->model('Control');
     }
 
     public function index()
@@ -26,38 +27,42 @@ class Temperatures extends CI_Controller
     {
         $this->output
             ->set_content_type('application/json')
-            ->set_output(json_encode(array('success' => $this->Temperature->insert(array(
+            ->set_output(json_encode(array('success' => array('temperature' => $this->Temperature->insert(array(
                 'temperature' => $this->input->post("temperature"),
-                'humidity' => $this->input->post("humidity")
-            )))));
+                'humidity' => $this->input->post("humidity")))), 'control' => $this->Control->get())));
     }
 
     public function update()
     {
         $this->output
             ->set_content_type('application/json')
-            ->set_output(json_encode(array('success' => $this->Temperature->update($this->input->post("temperature_id"), array(
-                'temperature' => $this->input->post("temperature"),
-                'humidity' => $this->input->post("humidity")
-            )))));
+            ->set_output(json_encode(array('success' => $this->Control->update(array(
+                'value' => 0)))));
     }
 
-    public function delete($temperature_id)
+    public function increase()
     {
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode(array('success' => $this->Temperature->delete($temperature_id))));
+        if ($this->Control->get()->value == 0) {
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode(array('increased' => $this->Control->update(1, array("value" => 1)))));
+        } else {
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode(array('increased' => 0)));
+        }
     }
 
-    public function increase(){
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode(array('increased' => 1)));
-    }
-
-    public function decrease(){
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode(array('decreased' => 1)));
+    public function decrease()
+    {
+        if ($this->Control->get()->value == 0) {
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode(array('decreased' => $this->Control->update(2, array("value" => 1)))));
+        } else {
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode(array('decreased' => 0)));
+        }
     }
 }
