@@ -20,7 +20,7 @@ class Control extends CI_Model
     public function update($control_id, $control)
     {
         if (!empty($control)) {
-            foreach ($control as $id) {
+            foreach ($control_id as $id) {
                 return $this->db->where('id', $id)->update(strtolower(get_class($this)), $control)? 1 : 0;                
             }
         } else {
