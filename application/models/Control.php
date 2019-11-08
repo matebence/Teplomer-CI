@@ -17,10 +17,12 @@ class Control extends CI_Model
         }
     }
 
-    public function update($control)
+    public function update($control_id, $control)
     {
         if (!empty($control)) {
-            return $this->db->where('value', 1)->update(strtolower(get_class($this)), $control)? 1 : 0;
+            foreach ($control as $id) {
+                return $this->db->where('id', $id)->update(strtolower(get_class($this)), $control)? 1 : 0;                
+            }
         } else {
             return 0;
         }

@@ -36,7 +36,7 @@ class Temperatures extends CI_Controller
     {
         $this->output
             ->set_content_type('application/json')
-            ->set_output(json_encode(array('success' => $this->Control->update(array(
+            ->set_output(json_encode(array('success' => $this->Control->update(array(1,2), array(
                 'value' => 0)))));
     }
 
@@ -45,7 +45,7 @@ class Temperatures extends CI_Controller
         if ($this->Control->get()->value == 0) {
             $this->output
                 ->set_content_type('application/json')
-                ->set_output(json_encode(array('increased' => $this->Control->update(1, array("value" => 1)))));
+                ->set_output(json_encode(array('increased' => $this->Control->update(array(1), array("value" => 1)))));
         } else {
             $this->output
                 ->set_content_type('application/json')
@@ -58,7 +58,7 @@ class Temperatures extends CI_Controller
         if ($this->Control->get()->value == 0) {
             $this->output
                 ->set_content_type('application/json')
-                ->set_output(json_encode(array('decreased' => $this->Control->update(2, array("value" => 1)))));
+                ->set_output(json_encode(array('decreased' => $this->Control->update(array(2), array("value" => 1)))));
         } else {
             $this->output
                 ->set_content_type('application/json')
